@@ -1,0 +1,4 @@
+name, wallet, 100;
+name2, wallet2, 200;
+name3, wallet3, 300;
+name4, wallet4, 100;
