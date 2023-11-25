@@ -27,7 +27,7 @@ program_id = Pubkey.from_string(
 
 key_pair = Keypair.from_base58_string(privKey_arg)
 
-solana_client = Client("https://purple-purple-firefly.solana-mainnet.quiknode.pro/d10b73ab35fdb1bc20946f1d571007bfa47350af/")
+solana_client = Client("...")
 spl_client = Token(
     conn=solana_client, pubkey=mint, program_id=program_id, payer=key_pair
 )
