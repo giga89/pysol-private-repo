@@ -40,6 +40,7 @@ if __name__ == "__main__":
                     "FeorejFjRRAfusN9Fg3WjEZ1dRCf74o6xwT5vDt3R34J",
                     "LUMACqD5LaKjs1AeuJYToybasTXoYQ7YkxJEc4jowNj",
                     "RCH1Zhg4zcSSQK8rw2s6rDMVsgBEWa4kiv1oLFndrN5"] 
+    res_array_total = [0, 0, 0, 0, 0, 0, 0, 0]
 
     #privkey of sender
     privKey_arg = sys.argv[1]
@@ -51,13 +52,20 @@ if __name__ == "__main__":
         f = open(resource + ".txt", "r")
         file_content = f.read()
         rows = file_content.split('\n')
-        elements_in_row = file_content.split(',')
-        #get all data from row user,address,quantity of resource
-        u = user(elements_in_row[0], elements_in_row[1])
-        #point depends to value of each resource
-        point_to_add=elements_in_row[2]*res_arr_val[res_arr_str.index("resource")]
-        add_point_to_user_in_array(u,point_to_add)
+        for row in rows:
+            elements_in_row = row.split(',')
+            #get all data from row user,address,quantity of resource
+            u = user(elements_in_row[0], elements_in_row[1])
+            #point depends to value of each resource
+            point_to_add=elements_in_row[2]*res_arr_val[res_arr_str.index(resource)]
+            add_point_to_user_in_array(u,point_to_add)
+            #add res to total of this res
+            res_array_total[res_arr_str.index(resource)] = res_array_total[res_arr_str.index(resource)] + elements_in_row[2]
         f.close()
+
+    #print total of each res
+    for res in res_array_total:
+        print(res_arr_str[res_arr_str.index(res)] + " " + res)
 
     #print user and points of each user
     for user in users_array:
