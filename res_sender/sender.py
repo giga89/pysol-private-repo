@@ -1,5 +1,8 @@
 import sys
 import time
+import numpy as np
+
+from user_class import user
 
 from solana.rpc.api import Client
 from spl.token.client import Token
@@ -8,93 +11,54 @@ from solders.keypair import Keypair
 from solders.system_program import TransferParams, transfer
 from solana.transaction import Transaction
 
-#resources
-res_arr_str = ["arco", "biomass","carbon","copperOre","diamond","ironOre","lumanite","rochinol"] 
-res_arr_val = [100, 10, 10, 15, 100, 20, 40, 100] 
-res_arr_address = ["ARCoQ9dndpg6wE2rRexzfwgJR3NoWWhpcww3xQcQLukg", 
-                   "MASS9GqtJz6ABisAxcUn3FeR4phMqH1XfG6LPKJePog",
-                   "carbon","copperOre","diamond","ironOre","lumanite","rochinol"] 
+#one element for each resource
+users_array = []
 
-privKey_arg = sys.argv[1]
-source_arg = sys.argv[2]
+def empty_user_array():
+    print("delete all users")
 
-f = open(file_address_arg, "r")
+def add_point_to_user_in_array(user, point_to_add):
+    print("Handling user " + user.name)
+    for person in users_array:
+        if person['name'] == user.name:
+            user.point = point_to_add
+            print("Total point " + user.point)
+            return person
+    user.point = point_to_add
+    users_array.add(user)
+            
+if __name__ == "__main__":
 
-list_address_arg = f.read()
+    #resources
+    res_arr_str = ["arco", "biomass","carbon","copperOre","diamond","ironOre","lumanite","rochinol"] 
+    res_arr_val = [100, 10, 10, 15, 100, 20, 40, 100] #random numbers waiting fonta/tori
+    res_arr_address = ["ARCoQ9dndpg6wE2rRexzfwgJR3NoWWhpcww3xQcQLukg", 
+                    "MASS9GqtJz6ABisAxcUn3FeR4phMqH1XfG6LPKJePog",
+                    "CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X",
+                    "CUore1tNkiubxSwDEtLc3Ybs1xfWLs8uGjyydUYZ25xc",
+                    "DMNDKqygEN3WXKVrAD4ofkYBc4CKNRhFUbXP4VK7a944",
+                    "FeorejFjRRAfusN9Fg3WjEZ1dRCf74o6xwT5vDt3R34J",
+                    "LUMACqD5LaKjs1AeuJYToybasTXoYQ7YkxJEc4jowNj",
+                    "RCH1Zhg4zcSSQK8rw2s6rDMVsgBEWa4kiv1oLFndrN5"] 
 
-list_address_splitted = list_address_arg.split('\n')
+    #privkey of sender
+    privKey_arg = sys.argv[1]
+    #address of sender
+    source_arg = sys.argv[2]
 
-mint = Pubkey.from_string(
-    "GigVfd8XiQSWjqkixbFpTEbh8nbfyYNVEkNZwj16947h"
-) 
-program_id = Pubkey.from_string(
-    "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
-) 
+    #populate array of user from files
+    for resource in res_arr_str:
+        f = open(resource + ".txt", "r")
+        file_content = f.read()
+        rows = file_content.split('\n')
+        elements_in_row = file_content.split(',')
+        #get all data from row user,address,quantity of resource
+        u = user(elements_in_row[0], elements_in_row[1])
+        #point depends to value of each resource
+        point_to_add=elements_in_row[2]*res_arr_val[res_arr_str.index("resource")]
+        add_point_to_user_in_array(u,point_to_add)
+        f.close()
 
-key_pair = Keypair.from_base58_string(privKey_arg)
-
-solana_client = Client("https://purple-purple-firefly.solana-mainnet.quiknode.pro/d10b73ab35fdb1bc20946f1d571007bfa47350af/")
-spl_client = Token(
-    conn=solana_client, pubkey=mint, program_id=program_id, payer=key_pair
-)
-
-source = Pubkey.from_string(source_arg)
-
-#arr_addr = [] 
-#arr_addr.append("5dAieffVeerGSbb115tiFxMNvW4JZrEPKNFv6snVhu97")
-#arr_addr.append("5nMU7HWHkpz8tU8vNfEVLuGaXUqdSpcTZYQSptxGa9EK")
-
-for x in list_address_splitted:
-    print(x)
-    row = x.split(',')
-    print("We are ready to sent to next address: ")
-    print(row[0])
-    print("Quantity: ")
-    print(row[1])
-
-    dest = Pubkey.from_string(row[0])
-    amount = row[1]
-    try:
-        source_token_account = (
-            spl_client.get_accounts_by_owner(
-                owner=source, commitment=None, encoding="base64"
-            )
-            .value[0]
-            .pubkey
-        )
-        
-    except:
-        source_token_account = spl_client.create_associated_token_account(
-            owner=source, skip_confirmation=False, recent_blockhash=None
-        )
-        
-    try:
-        dest_token_account = (
-            spl_client.get_accounts_by_owner(owner=dest, commitment=None, encoding="base64")
-            .value[0]
-            .pubkey
-        )
-        
-    except:
-        dest_token_account = spl_client.create_associated_token_account(
-            owner=dest, skip_confirmation=False, recent_blockhash=None
-        )
-
-
-    txn = Transaction()
-
-    transaction = spl_client.transfer(
-        source=source_token_account,
-        dest=dest_token_account,
-        owner=key_pair,
-        amount=int(float(amount)),
-        multi_signers=None,
-        opts=None,
-        recent_blockhash=None,
-    )
-
-    print(transaction)
-
-    time.sleep(1)
-    
-exit()
+    #print user and points of each user
+    for user in users_array:
+        print(user.name + "points: " + user.point + "\r\n")
