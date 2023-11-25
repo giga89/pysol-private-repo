@@ -20,15 +20,11 @@ def remove_space(string):
     result =  result.replace("\n", "")
     return result
 
-def empty_user_array():
-    print("delete all users")
-
 def add_point_to_user_in_array(user, point_to_add):
     print("Handling user " + user.name)
     for person in users_array:
         if person.name == user.name:
-            user.points = point_to_add
-            print("Total point " + user.point)
+            person.points = person.points + point_to_add
             return
     
     user.points = point_to_add    
@@ -38,7 +34,7 @@ if __name__ == "__main__":
 
     #resources
     res_arr_str = ["arco", "biomass","carbon","copperOre","diamond","ironOre","lumanite","rochinol"] 
-    res_arr_val = [100, 10, 15, 15, 100, 20, 40, 100] #random numbers waiting fonta/tori
+    res_arr_val = [446, 0, 100, 142, 445, 136, 193, 450] #random numbers waiting fonta/tori
     res_arr_address = ["ARCoQ9dndpg6wE2rRexzfwgJR3NoWWhpcww3xQcQLukg", 
                     "MASS9GqtJz6ABisAxcUn3FeR4phMqH1XfG6LPKJePog",
                     "CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X",
@@ -73,16 +69,16 @@ if __name__ == "__main__":
                 #add res to total of this res
                 res_array_total[res_arr_str.index(resource)] = res_array_total[res_arr_str.index(resource)] + quantity
         except:
-            #print("file: " + resource + ".txt" + "not found")
-            print()
+            print("file: " + resource + ".txt" + "not found")
+            
 
     #print user and points of each user
     for user in users_array:
-        print(user.name + "points: " + str(user.points) + "\r\n")
+        print(user.name + "points: " + str(user.points) + "\r")
 
     #print total of each res
     index=0
     for res in res_array_total:
-        print(res_arr_str[index] + str(res))
+        print(res_arr_str[index] + " " +str(res))
         index=index+1
 
