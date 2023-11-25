@@ -81,6 +81,8 @@ if __name__ == "__main__":
         print(user.name + "points: " + str(user.points) + "\r\n")
 
     #print total of each res
+    index=0
     for res in res_array_total:
-        print(res_arr_str[res_array_total.index(res)] + " " + str(res))
+        print(res_arr_str[index] + str(res))
+        index=index+1
 
