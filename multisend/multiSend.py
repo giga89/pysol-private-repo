@@ -19,7 +19,7 @@ list_address_arg = f.read()
 list_address_splitted = list_address_arg.split('\n')
 
 mint = Pubkey.from_string(
-    "GigVfd8XiQSWjqkixbFpTEbh8nbfyYNVEkNZwj16947h"
+    "DMNDKqygEN3WXKVrAD4ofkYBc4CKNRhFUbXP4VK7a944"
 ) 
 program_id = Pubkey.from_string(
     "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
