@@ -11,7 +11,9 @@ from solana.transaction import Transaction
 #resources
 res_arr_str = ["arco", "biomass","carbon","copperOre","diamond","ironOre","lumanite","rochinol"] 
 res_arr_val = [100, 10, 10, 15, 100, 20, 40, 100] 
-res_arr_str = ["arco", "biomass","carbon","copperOre","diamond","ironOre","lumanite","rochinol"] 
+res_arr_address = ["ARCoQ9dndpg6wE2rRexzfwgJR3NoWWhpcww3xQcQLukg", 
+                   "MASS9GqtJz6ABisAxcUn3FeR4phMqH1XfG6LPKJePog",
+                   "carbon","copperOre","diamond","ironOre","lumanite","rochinol"] 
 
 privKey_arg = sys.argv[1]
 source_arg = sys.argv[2]

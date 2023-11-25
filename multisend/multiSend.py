@@ -34,10 +34,6 @@ spl_client = Token(
 
 source = Pubkey.from_string(source_arg)
 
-#arr_addr = [] 
-#arr_addr.append("5dAieffVeerGSbb115tiFxMNvW4JZrEPKNFv6snVhu97")
-#arr_addr.append("5nMU7HWHkpz8tU8vNfEVLuGaXUqdSpcTZYQSptxGa9EK")
-
 for x in list_address_splitted:
     print(x)
     row = x.split(',')
