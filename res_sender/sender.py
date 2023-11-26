@@ -21,7 +21,6 @@ def remove_space(string):
     return result
 
 def add_point_to_user_in_array(user, point_to_add):
-    print("Handling user " + user.name)
     for person in users_array:
         if person.name == user.name:
             person.points = person.points + point_to_add
@@ -83,10 +82,17 @@ if __name__ == "__main__":
 
     #populate array of user from files
     index=0
+    total_distribuited = 0
     for resource in res_arr_str:
         for user in users_array:
             quantity_to_divide = res_array_total[index]
             if quantity_to_divide>0:
-                quantity_for_this_resource = (user.points / 6) / res_arr_val[index]
+                quantity_for_this_resource = round((user.points / 6) / res_arr_val[index])
+                total_distribuited = total_distribuited + quantity_for_this_resource
                 print(user.name + " have to " + str(quantity_for_this_resource) + " of " + res_arr_str[index])
+            else:
+                total_distribuited = 0    
+
+        print("total quantity of " + res_arr_str[index] + " distribuited is " + str(total_distribuited))        
         index=index+1
+
