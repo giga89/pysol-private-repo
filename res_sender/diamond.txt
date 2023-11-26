@@ -1,8 +1,1 @@
 nameD1, wallet, 100;
-nameD2, wallet, 100;
-nameD3, wallet, 100;
-nameD4, wallet, 100;
-nameD5, wallet, 100;
-nameD6, wallet, 100;
-nameD7, wallet, 100;
-nameD8, wallet, 100;

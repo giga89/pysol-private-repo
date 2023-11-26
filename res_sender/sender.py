@@ -84,14 +84,13 @@ if __name__ == "__main__":
     index=0
     total_distribuited = 0
     for resource in res_arr_str:
+        total_distribuited = 0    
         for user in users_array:
             quantity_to_divide = res_array_total[index]
             if quantity_to_divide>0:
-                quantity_for_this_resource = round((user.points / 6) / res_arr_val[index])
+                quantity_for_this_resource = round((user.points *( (6 * res_arr_val[index] / 1952)/ 6)) / res_arr_val[index])
                 total_distribuited = total_distribuited + quantity_for_this_resource
                 print(user.name + " have to " + str(quantity_for_this_resource) + " of " + res_arr_str[index])
-            else:
-                total_distribuited = 0    
 
         print("total quantity of " + res_arr_str[index] + " distribuited is " + str(total_distribuited))        
         index=index+1
