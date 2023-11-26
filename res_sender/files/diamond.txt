@@ -1,0 +1,1 @@
+nameD1, wallet, 100000;

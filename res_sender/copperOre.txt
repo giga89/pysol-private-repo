@@ -1,1 +1,0 @@
-nameO1, wallet, 100;
