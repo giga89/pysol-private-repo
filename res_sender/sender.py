@@ -1,3 +1,4 @@
+"""Module providing a function to open file"""
 import sys
 
 from user_class import user
@@ -43,23 +44,23 @@ if __name__ == "__main__":
     #populate array of user from files
     for resource in res_arr_str:
         try:
-            f = open("files/" + resource + ".txt", "r", encoding="utf-8")
-            file_content = f.read()
-            rows = file_content.split(';')
-            for row in rows:
-                elements_in_row = row.split(',')
-                if len(elements_in_row) == 3:
-                    #get all data from row user,address,quantity of resource
-                    name=remove_space_and_n(elements_in_row[0])
-                    wallet=remove_space_and_n(elements_in_row[1])
-                    quantity=int(remove_space_and_n(elements_in_row[2]))
-                    u = user(name, wallet)
-                    #point depends to value of each resource
-                    point_to_add=quantity*int(res_arr_val[res_arr_str.index(resource)])
-                    add_point_to_user_in_array(u,point_to_add)
-                    #add res to total of this res
-                    idx = res_arr_str.index(resource)
-                    res_array_total[idx] = res_array_total[idx] + quantity
+            with open("files/" + resource + ".txt", "r", encoding="utf-8") as f:
+                file_content = f.read()
+                rows = file_content.split(';')
+                for row in rows:
+                    elements_in_row = row.split(',')
+                    if len(elements_in_row) == 3:
+                        #get all data from row user,address,quantity of resource
+                        name=remove_space_and_n(elements_in_row[0])
+                        wallet=remove_space_and_n(elements_in_row[1])
+                        quantity=int(remove_space_and_n(elements_in_row[2]))
+                        u = user(name, wallet)
+                        #point depends to value of each resource
+                        point_to_add=quantity*int(res_arr_val[res_arr_str.index(resource)])
+                        add_point_to_user_in_array(u,point_to_add)
+                        #add res to total of this res
+                        idx = res_arr_str.index(resource)
+                        res_array_total[idx] = res_array_total[idx] + quantity
         except IOError:
             print("file: " + resource + ".txt" + "not found")
 
