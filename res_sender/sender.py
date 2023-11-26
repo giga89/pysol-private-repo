@@ -1,7 +1,7 @@
 """Module providing a function to open file"""
 import sys
 
-from user_class import user
+from user_class import User
 
 #one element for each resource
 users_array = []
@@ -54,7 +54,7 @@ if __name__ == "__main__":
                         name=remove_space_and_n(elements_in_row[0])
                         wallet=remove_space_and_n(elements_in_row[1])
                         quantity=int(remove_space_and_n(elements_in_row[2]))
-                        u = user(name, wallet)
+                        u = User(name, wallet)
                         #point depends to value of each resource
                         point_to_add=quantity*int(res_arr_val[res_arr_str.index(resource)])
                         add_point_to_user_in_array(u,point_to_add)

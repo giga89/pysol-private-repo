@@ -1,4 +1,4 @@
-class user:
+class User:
   """Class of partecipant user"""
   def __init__(self, name, addr):
   """Init user"""
