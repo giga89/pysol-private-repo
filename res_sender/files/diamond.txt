@@ -1,1 +1,1 @@
-nameD1, wallet, 100000;
+abequar, wallet, 873900;

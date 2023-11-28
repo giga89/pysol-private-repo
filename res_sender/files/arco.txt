@@ -1,1 +1,1 @@
-nameA1, wallet, 100000;
+giga,wallet,873000;

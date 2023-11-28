@@ -1,1 +1,1 @@
-nameR1, wallet, 100000;
+Fisho, wallet, 873000;

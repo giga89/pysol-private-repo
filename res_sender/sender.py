@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     #resources
     res_arr_str = ["arco","carbon","copperOre","diamond","ironOre","lumanite","rochinol"]
-    res_arr_val = [446, 100, 142, 445, 136, 193, 450] #random numbers waiting fonta/tori
+    res_arr_val = [446, 100, 142, 445, 136, 193, 450]
     res_arr_address = ["ARCoQ9dndpg6wE2rRexzfwgJR3NoWWhpcww3xQcQLukg",
                     "CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X",
                     "CUore1tNkiubxSwDEtLc3Ybs1xfWLs8uGjyydUYZ25xc",
@@ -74,17 +74,18 @@ if __name__ == "__main__":
         print(res_arr_str[INDEX] + " " +str(res))
         INDEX+=1
 
-    #populate array of user from files
     INDEX=0
     for resource in res_arr_str:
         TOTAL = 0
         for user in users_array:
             QTD = res_array_total[INDEX]
+
             if QTD>0:
                 RES_VAL = res_arr_val[INDEX]
-                QFTR = round((user.points *( (6 *  RES_VAL / 1952)/ 6)) / RES_VAL)
+                QFTR = round((user.points / 7)/RES_VAL)
                 TOTAL += QFTR
-                print(user.name + " have to " + str(QFTR) + " of " + str(RES_VAL))
+                print(user.name + " have to " + str(QFTR) + " of " + str(res_arr_str[INDEX]))
 
         print("total quantity of " + res_arr_str[INDEX] + " distribuited is " + str(TOTAL))
         INDEX+=1
+        

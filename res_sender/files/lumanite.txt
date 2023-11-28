@@ -1,1 +1,1 @@
-nameL1, wallet, 100000;
+bellazio, wallet, 1965600;
