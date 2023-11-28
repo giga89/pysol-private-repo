@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
             if QTD>0:
                 RES_VAL = res_arr_val[INDEX]
-                QFTR = round((user.points / 7)/RES_VAL)
+                QFTR = round((user.points / len(res_arr_val))/RES_VAL)
                 TOTAL += QFTR
                 print(user.name + " have to " + str(QFTR) + " of " + str(res_arr_str[INDEX]))
 
