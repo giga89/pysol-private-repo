@@ -1,4 +1,5 @@
 """Module providing a function to open file"""
+import logging
 import sys
 import math
 
@@ -6,6 +7,10 @@ from user_class import User
 
 #one element for each resource
 users_array = []
+
+def percent(num_a, num_b):
+    """Function percentuage calculator"""
+    return (int(num_b) / int(num_a)) * 100
 
 # Python3 code to remove whitespace
 def remove_space_and_n(string):
@@ -17,13 +22,15 @@ def remove_space_and_n(string):
 def add_point_to_user_in_array(user1, points):
     """Function add points to user"""
     for person in users_array:
-        if person.name == user1.name:
+        if person.addr == user1.addr:
             person.points = person.points + points
             return
     user1.points = points
     users_array.append(user1)
 
 if __name__ == "__main__":
+
+    logging.basicConfig(filename="log.txt", level=logging.INFO)
 
     #resources
     res_arr_str = ["arco","carbon","copperOre","diamond","ironOre","lumanite","rochinol"]
@@ -63,16 +70,21 @@ if __name__ == "__main__":
                         idx = res_arr_str.index(resource)
                         res_array_total[idx] = res_array_total[idx] + quantity
         except IOError:
-            print("file: " + resource + ".txt" + "not found")
+            logging.error("file: %s.txt not found", resource)
 
     #print user and points of each user
     for user in users_array:
-        print(user.name + "points: " + str(user.points) + "\r")
+        logging.info("%s points: %d", user.addr, user.points)
 
     #print total of each res
+    TAX=4
     INDEX=0
     for res in res_array_total:
-        print(res_arr_str[INDEX] + " " +str(res))
+        logging.info("total %s %d", res_arr_str[INDEX], int(res))
+        TAXES = (4 * res) /100
+        res_array_total[INDEX] = res - TAXES
+        logging.info("taxes %s %d", res_arr_str[INDEX],int(TAXES))
+        logging.info("net %s %d", res_arr_str[INDEX],res_array_total[INDEX])
         INDEX+=1
 
     INDEX=0
@@ -85,8 +97,7 @@ if __name__ == "__main__":
                 RES_VAL = res_arr_val[INDEX]
                 QFTR = math.floor((user.points / len(res_arr_val))/RES_VAL)
                 TOTAL += QFTR
-                print(user.name + " have to " + str(QFTR) + " of " + str(res_arr_str[INDEX]))
-
-        print("total quantity of " + res_arr_str[INDEX] + " distribuited is " + str(TOTAL))
+                logging.info("%s have to %d of %s",user.addr,QFTR,str(res_arr_str[INDEX]))
+        logging.info("%d %s distribuited",TOTAL, res_arr_str[INDEX])
         INDEX+=1
         

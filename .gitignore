@@ -1,2 +1,10 @@
 res_sender/__pycache__/user_class.cpython-310.pyc
 multisend/diamond
+res_sender/log.txt
+res_sender/files/arco.txt
+res_sender/files/carbon.txt
+res_sender/files/copperOre.txt
+res_sender/files/diamond.txt
+res_sender/files/ironOre.txt
+res_sender/files/lumanite.txt
+res_sender/files/rochinol.txt
