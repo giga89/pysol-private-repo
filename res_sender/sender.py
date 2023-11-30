@@ -72,9 +72,17 @@ if __name__ == "__main__":
         except IOError:
             logging.error("file: %s.txt not found", resource)
 
+    TOTAL_POINTS = 0
     #print user and points of each user
     for user in users_array:
         logging.info("%s points: %d", user.addr, user.points)
+        TOTAL_POINTS = TOTAL_POINTS + user.points
+
+    for user in users_array:
+        #x:100 = point:total
+        user.percent = ((100*user.points) / (TOTAL_POINTS))
+        logging.info("%s %f", user.name, user.percent)
+     
 
     #print total of each res
     TAX=4
@@ -92,12 +100,14 @@ if __name__ == "__main__":
         TOTAL = 0
         for user in users_array:
             QTD = res_array_total[INDEX]
-
             if QTD>0:
-                RES_VAL = res_arr_val[INDEX]
-                QFTR = math.floor((user.points / len(res_arr_val))/RES_VAL)
+                QFTR = math.floor((user.percent/100) * QTD)
+                print(user.percent)
+                print(QTD)
+                print(QFTR)
+
                 TOTAL += QFTR
-                logging.info("%s have to %d of %s",user.addr,QFTR,str(res_arr_str[INDEX]))
-        logging.info("%d %s distribuited",TOTAL, res_arr_str[INDEX])
+                logging.info("%s have to %d of %s",user.name,QFTR,str(res_arr_str[INDEX]))
+        logging.info("%f %s distribuited",TOTAL, res_arr_str[INDEX])
         INDEX+=1
         

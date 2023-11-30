@@ -5,3 +5,4 @@ class User:
     self.name = name
     self.addr = addr
     self.points = 0
+    self.percent = 0
