@@ -5,12 +5,75 @@ import math
 
 from user_class import User
 
+from solana.rpc.api import Client
+from spl.token.client import Token
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
+from solders.system_program import TransferParams, transfer
+from solana.transaction import Transaction
+
 #one element for each resource
 users_array = []
 
-def percent(num_a, num_b):
-    """Function percentuage calculator"""
-    return (int(num_b) / int(num_a)) * 100
+
+program_id = Pubkey.from_string(
+    "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+)
+
+def send_transaction(dest_address,res_address, res_quantity, privKey_arg, source_arg):
+    """ Send transaction on solana"""
+    key_pair = Keypair.from_base58_string(privKey_arg)
+    source = Pubkey.from_string(source_arg)
+    mint = Pubkey.from_string(res_address)
+    dest = Pubkey.from_string(dest_address)
+
+    amount = res_quantity
+    solana_client = Client("https://purple-purple-firefly.solana-mainnet.quiknode.pro/d10b73ab35fdb1bc20946f1d571007bfa47350af/")
+    spl_client = Token(
+        conn=solana_client, pubkey=mint, program_id=program_id, payer=key_pair
+    )
+
+    try:
+        source_token_account = (
+            spl_client.get_accounts_by_owner(
+                owner=source, commitment=None, encoding="base64"
+            )
+            .value[0]
+            .pubkey
+        )
+        
+    except:
+        source_token_account = spl_client.create_associated_token_account(
+            owner=source, skip_confirmation=False, recent_blockhash=None
+        )
+        
+    try:
+        dest_token_account = (
+            spl_client.get_accounts_by_owner(owner=dest, commitment=None, encoding="base64")
+            .value[0]
+            .pubkey
+        )
+        
+    except:
+        dest_token_account = spl_client.create_associated_token_account(
+            owner=dest, skip_confirmation=False, recent_blockhash=None
+        )
+
+
+    txn = Transaction()
+
+    transaction = spl_client.transfer(
+        source=source_token_account,
+        dest=dest_token_account,
+        owner=key_pair,
+        amount=int(float(amount)),
+        multi_signers=None,
+        opts=None,
+        recent_blockhash=None,
+    )
+
+    print(transaction)
+    print(txn)
 
 # Python3 code to remove whitespace
 def remove_space_and_n(string):
@@ -102,10 +165,6 @@ if __name__ == "__main__":
             QTD = res_array_total[INDEX]
             if QTD>0:
                 QFTR = math.floor((user.percent/100) * QTD)
-                print(user.percent)
-                print(QTD)
-                print(QFTR)
-
                 TOTAL += QFTR
                 logging.info("%s have to %d of %s",user.name,QFTR,str(res_arr_str[INDEX]))
         logging.info("%f %s distribuited",TOTAL, res_arr_str[INDEX])
