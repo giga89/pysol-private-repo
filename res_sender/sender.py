@@ -93,7 +93,24 @@ def add_point_to_user_in_array(user1, points):
 
 if __name__ == "__main__":
 
-    logging.basicConfig(filename="log.txt", level=logging.INFO)
+    logging.basicConfig(filename="log.txt", level=logging.DEBUG)
+
+    # create logger
+    logger = logging.getLogger('')
+    logger.setLevel(logging.DEBUG)
+
+    # create console handler and set level to debug
+    ch = logging.FileHandler(filename="log.txt", mode="a")
+    ch.setLevel(logging.DEBUG)
+
+    # create formatter
+    formatter = logging.Formatter('%(asctime)s')
+
+    # add formatter to ch
+    ch.setFormatter(formatter)
+
+    # add ch to logger
+    logger.addHandler(ch)
 
     #resources
     res_arr_str = ["arco","carbon","copperOre","diamond","ironOre","lumanite","rochinol"]
@@ -111,6 +128,10 @@ if __name__ == "__main__":
     privKey_arg = sys.argv[1]
     #address of sender
     source_arg = sys.argv[2]
+    #send for real
+    realSend = sys.argv[3]
+    #index to start
+    index_to_start = sys.argv[4]
 
     #populate array of user from files
     for resource in res_arr_str:
@@ -133,40 +154,47 @@ if __name__ == "__main__":
                         idx = res_arr_str.index(resource)
                         res_array_total[idx] = res_array_total[idx] + quantity
         except IOError:
-            logging.error("file: %s.txt not found", resource)
+            logger.error("file: %s.txt not found", resource)
 
     TOTAL_POINTS = 0
     #print user and points of each user
     for user in users_array:
-        logging.info("%s points: %d", user.addr, user.points)
+        logger.debug("%s points: %d", user.addr, user.points)
         TOTAL_POINTS = TOTAL_POINTS + user.points
 
     for user in users_array:
         #x:100 = point:total
-        user.percent = ((100*user.points) / (TOTAL_POINTS))
-        logging.info("%s %f", user.name, user.percent)
-     
-
+        user.percent = (100*user.points) / (TOTAL_POINTS)
+        logger.debug("%s %f%%", user.name, user.percent)
     #print total of each res
     TAX=4
     INDEX=0
     for res in res_array_total:
-        logging.info("total %s %d", res_arr_str[INDEX], int(res))
+        logger.debug("total %s %d", res_arr_str[INDEX], int(res))
         TAXES = (4 * res) /100
         res_array_total[INDEX] = res - TAXES
-        logging.info("taxes %s %d", res_arr_str[INDEX],int(TAXES))
-        logging.info("net %s %d", res_arr_str[INDEX],res_array_total[INDEX])
+        logger.debug("taxes %s %d", res_arr_str[INDEX],int(TAXES))
+        logger.info("net %s %d", res_arr_str[INDEX],res_array_total[INDEX])
         INDEX+=1
 
     INDEX=0
+    INDEX_TRXS=0
     for resource in res_arr_str:
         TOTAL = 0
         for user in users_array:
             QTD = res_array_total[INDEX]
             if QTD>0:
-                QFTR = math.floor((user.percent/100) * QTD)
-                TOTAL += QFTR
-                logging.info("%s have to %d of %s",user.name,QFTR,str(res_arr_str[INDEX]))
-        logging.info("%f %s distribuited",TOTAL, res_arr_str[INDEX])
+                if INDEX_TRXS > int(index_to_start):
+                    QFTR = math.floor((user.percent/100) * QTD)
+                    TOTAL += QFTR
+
+                    if realSend == "send":
+                        logger.debug("TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
+                        send_transaction(user.addr, res_arr_address[INDEX], QFTR, privKey_arg, source_arg)
+                    else:
+                        logger.debug("FAKE TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
+                INDEX_TRXS+=1
+
+        logger.info("%f %s distribuited",TOTAL, res_arr_str[INDEX])
         INDEX+=1
         
