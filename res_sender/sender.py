@@ -20,10 +20,10 @@ program_id = Pubkey.from_string(
     "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
 )
 
-def send_transaction(dest_address,res_address, res_quantity, privKey_arg, source_arg):
+def send_transaction(dest_address,res_address, res_quantity, privkey, source):
     """ Send transaction on solana"""
-    key_pair = Keypair.from_base58_string(privKey_arg)
-    source = Pubkey.from_string(source_arg)
+    key_pair = Keypair.from_base58_string(privkey)
+    source = Pubkey.from_string(source)
     mint = Pubkey.from_string(res_address)
     dest = Pubkey.from_string(dest_address)
 
