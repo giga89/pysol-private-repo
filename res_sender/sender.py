@@ -2,6 +2,7 @@
 import logging
 import sys
 import math
+import os
 
 from user_class import User
 
@@ -166,6 +167,17 @@ if __name__ == "__main__":
         #x:100 = point:total
         user.percent = (100*user.points) / (TOTAL_POINTS)
         logger.debug("%s %f%%", user.name, user.percent)
+
+    if os.path.exists("sender_wallets.txt"):
+        os.remove("sender_wallets.txt")
+    else:
+        print("The file does not exist") 
+    for user in users_array:
+        file1 = open("sender_wallets.txt", "a")  # append mode
+        file1.write(user.addr)
+        file1.write('\n')
+        file1.close()
+
     #print total of each res
     TAX=4
     INDEX=0
