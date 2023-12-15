@@ -4,6 +4,7 @@ import sys
 import math
 import datetime
 import time
+from threading import Thread
 from time import sleep
 
 from user_class import User
@@ -16,12 +17,11 @@ from solders.system_program import TransferParams, transfer
 from solana.transaction import Transaction
 
 total_count=0
-INDEX=0
 
 def get_transaction(address,sig_before = 0):
     global total_count
-    global INDEX
-    
+    #if sig_before:    
+    INDEX=0
     """Module to analyze transaction to pool"""
     solana_client = Client("https://purple-purple-firefly.solana-mainnet.quiknode.pro/d10b73ab35fdb1bc20946f1d571007bfa47350af/")
     pubkey = Pubkey.from_string(address)
@@ -142,4 +142,13 @@ if __name__ == "__main__":
         for row in rows:
             print(row)
             INDEX=0 
-            get_transaction(row)
+            
+        threads = [Thread(target=get_transaction, args=[row,0]) for row in rows]
+    
+        # start the threads
+        for thread in threads:
+            thread.start()
+
+        # wait for the threads to complete
+        for thread in threads:
+            thread.join()
