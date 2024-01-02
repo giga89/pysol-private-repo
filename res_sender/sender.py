@@ -29,7 +29,7 @@ def send_transaction(dest_address,res_address, res_quantity, privkey, source):
     dest = Pubkey.from_string(dest_address)
 
     amount = res_quantity
-    solana_client = Client("https://purple-purple-firefly.solana-mainnet.quiknode.pro/d10b73ab35fdb1bc20946f1d571007bfa47350af/")
+    solana_client = Client("https://indulgent-small-grass.solana-mainnet.quiknode.pro/98eace00260cbb6d63ad1b34a222511a4cf79e3d/")
     spl_client = Token(
         conn=solana_client, pubkey=mint, program_id=program_id, payer=key_pair
     )
@@ -202,7 +202,16 @@ if __name__ == "__main__":
 
                     if realSend == "send":
                         logger.debug("TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
-                        send_transaction(user.addr, res_arr_address[INDEX], QFTR, privKey_arg, source_arg)
+                        trns_done = 0
+                        while trns_done == 0:
+                            try:
+                                send_transaction(user.addr, res_arr_address[INDEX], QFTR, privKey_arg, source_arg)
+                                trns_done = 1
+                                logger.debug("DONE IDX:[%d]", INDEX_TRXS)
+                            except: 
+                                print
+                                trns_done = 0
+                                logger.debug("RETRY IDX:[%d]", INDEX_TRXS)
                     else:
                         logger.debug("FAKE TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
                 INDEX_TRXS+=1
