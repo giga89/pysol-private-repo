@@ -1,4 +1,4 @@
-# pysol-private-repo
+# solana-sender
 
 SIMPLE SENDER example:
 address.txt already present in simple_sender/files
