@@ -55,8 +55,7 @@ def get_transaction(address,sig_before = 0):
                     transaction = solana_client.get_transaction(sing_sign.signature)
                     transaction_get = 1
                 except:
-                    print("Ignore error..")
-                    transaction_get = 2
+                    print("Retry..")
 
             INDEX=INDEX+1
             total_count=total_count+1
@@ -114,7 +113,7 @@ def get_transaction(address,sig_before = 0):
                     formatted_time = dt.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
                     print(formatted_time)
                     
-                    if(time.time() - transaction.value.block_time > 259200):
+                    if(time.time() - transaction.value.block_time > 604800):
                         print("too old. Bye")
                         found=True
                     
@@ -133,22 +132,16 @@ def get_transaction(address,sig_before = 0):
         get_transaction(address, last_sign)                  
             
     
-if __name__ == "__main__":
-            
+if __name__ == "__main__":             
     total_count=0
     with open("sender_wallets.txt", "r", encoding="utf-8") as f:
         file_content = f.read()
         rows = file_content.split('\n')
-        for row in rows:
-            print(row)
-            INDEX=0 
-            
+        INDEX=0
         threads = [Thread(target=get_transaction, args=[row,0]) for row in rows]
-    
         # start the threads
         for thread in threads:
             thread.start()
-
         # wait for the threads to complete
         for thread in threads:
             thread.join()
