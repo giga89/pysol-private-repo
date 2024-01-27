@@ -29,7 +29,7 @@ def send_transaction(dest_address,res_address, res_quantity, privkey, source):
     dest = Pubkey.from_string(dest_address)
 
     amount = res_quantity
-    solana_client = Client("https://indulgent-small-grass.solana-mainnet.quiknode.pro/98eace00260cbb6d63ad1b34a222511a4cf79e3d/")
+    solana_client = Client("https://purple-purple-firefly.solana-mainnet.quiknode.pro/d10b73ab35fdb1bc20946f1d571007bfa47350af/")
     spl_client = Token(
         conn=solana_client, pubkey=mint, program_id=program_id, payer=key_pair
     )
@@ -114,16 +114,17 @@ if __name__ == "__main__":
     logger.addHandler(ch)
 
     #resources
-    res_arr_str = ["arco","carbon","copperOre","diamond","ironOre","lumanite","rochinol"]
-    res_arr_val = [446, 100, 142, 445, 136, 193, 450]
+    res_arr_str = ["arco","carbon","copperOre","diamond","ironOre","lumanite","rochinol", "biomassa"]
+    res_arr_val = [452, 115, 147, 451, 140, 198, 454, 100]
     res_arr_address = ["ARCoQ9dndpg6wE2rRexzfwgJR3NoWWhpcww3xQcQLukg",
                     "CARBWKWvxEuMcq3MqCxYfi7UoFVpL9c4rsQS99tw6i4X",
                     "CUore1tNkiubxSwDEtLc3Ybs1xfWLs8uGjyydUYZ25xc",
                     "DMNDKqygEN3WXKVrAD4ofkYBc4CKNRhFUbXP4VK7a944",
                     "FeorejFjRRAfusN9Fg3WjEZ1dRCf74o6xwT5vDt3R34J",
                     "LUMACqD5LaKjs1AeuJYToybasTXoYQ7YkxJEc4jowNj",
-                    "RCH1Zhg4zcSSQK8rw2s6rDMVsgBEWa4kiv1oLFndrN5"] 
-    res_array_total = [0, 0, 0, 0, 0, 0, 0]
+                    "RCH1Zhg4zcSSQK8rw2s6rDMVsgBEWa4kiv1oLFndrN5",
+                    "MASS9GqtJz6ABisAxcUn3FeR4phMqH1XfG6LPKJePog"] 
+    res_array_total = [0, 0, 0, 0, 0, 0, 0, 0]
 
     #privkey of sender
     privKey_arg = sys.argv[1]
