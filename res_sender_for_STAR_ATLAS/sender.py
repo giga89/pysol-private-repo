@@ -3,8 +3,12 @@ import logging
 import sys
 import math
 import os
+from common import send_transaction_and_test
+from common import remove_space_and_n
+
 
 from user_class import User
+
 
 from solana.rpc.api import Client
 from spl.token.client import Token
@@ -12,76 +16,6 @@ from solders.pubkey import Pubkey
 from solders.keypair import Keypair
 from solders.system_program import TransferParams, transfer
 from solana.transaction import Transaction
-
-#one element for each resource
-users_array = []
-
-
-program_id = Pubkey.from_string(
-    "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
-)
-
-def send_transaction(dest_address,res_address, res_quantity, privkey, source):
-    """ Send transaction on solana"""
-    key_pair = Keypair.from_base58_string(privkey)
-    source = Pubkey.from_string(source)
-    mint = Pubkey.from_string(res_address)
-    dest = Pubkey.from_string(dest_address)
-
-    amount = res_quantity
-    solana_client = Client("https://purple-purple-firefly.solana-mainnet.quiknode.pro/d10b73ab35fdb1bc20946f1d571007bfa47350af/")
-    spl_client = Token(
-        conn=solana_client, pubkey=mint, program_id=program_id, payer=key_pair
-    )
-
-    try:
-        source_token_account = (
-            spl_client.get_accounts_by_owner(
-                owner=source, commitment=None, encoding="base64"
-            )
-            .value[0]
-            .pubkey
-        )
-        
-    except:
-        source_token_account = spl_client.create_associated_token_account(
-            owner=source, skip_confirmation=False, recent_blockhash=None
-        )
-        
-    try:
-        dest_token_account = (
-            spl_client.get_accounts_by_owner(owner=dest, commitment=None, encoding="base64")
-            .value[0]
-            .pubkey
-        )
-        
-    except:
-        dest_token_account = spl_client.create_associated_token_account(
-            owner=dest, skip_confirmation=False, recent_blockhash=None
-        )
-
-
-    txn = Transaction()
-
-    transaction = spl_client.transfer(
-        source=source_token_account,
-        dest=dest_token_account,
-        owner=key_pair,
-        amount=int(float(amount)),
-        multi_signers=None,
-        opts=None,
-        recent_blockhash=None,
-    )
-
-    print(transaction)
-    print(txn)
-
-# Python3 code to remove whitespace
-def remove_space_and_n(string):
-    """Function remove space and n char from a string"""
-    result =  string.replace(" ", "")
-    result =  result.replace("\n", "")
-    return result
 
 def add_point_to_user_in_array(user1, points):
     """Function add points to user"""
@@ -91,6 +25,9 @@ def add_point_to_user_in_array(user1, points):
             return
     user1.points = points
     users_array.append(user1)
+
+#one element for each resource
+users_array = []
 
 if __name__ == "__main__":
 
@@ -203,16 +140,7 @@ if __name__ == "__main__":
 
                     if realSend == "send":
                         logger.debug("TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
-                        trns_done = 0
-                        while trns_done == 0:
-                            try:
-                                send_transaction(user.addr, res_arr_address[INDEX], QFTR, privKey_arg, source_arg)
-                                trns_done = 1
-                                logger.debug("DONE IDX:[%d]", INDEX_TRXS)
-                            except: 
-                                print
-                                trns_done = 0
-                                logger.debug("RETRY IDX:[%d]", INDEX_TRXS)
+                        send_transaction_and_test(user.addr, res_arr_address[INDEX], QFTR, privKey_arg, source_arg, logger, INDEX_TRXS)
                     else:
                         logger.debug("FAKE TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
                 INDEX_TRXS+=1
