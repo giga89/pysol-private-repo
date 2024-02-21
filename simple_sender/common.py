@@ -2,9 +2,7 @@
 import logging
 import sys
 import math
-import os
-
-from user_class_2 import User
+import time
 
 from solana.rpc.api import Client
 from spl.token.client import Token
@@ -17,6 +15,53 @@ program_id = Pubkey.from_string(
     "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
 )
 
+rpc_url = "https://mainnet.helius-rpc.com/?api-key=6297c3ea-594e-4fb1-a545-f132c3f838c7"
+
+
+def send_transaction_and_test(dest_address,res_address, res_quantity, privkey, source, logger, INDEX_TRXS):
+    
+    present_quantity = 0
+    after_quantity = 0
+    trns_done = 0
+    while present_quantity == 0:
+        try:
+            present_quantity = get_quantity(source,privkey,res_address)
+            logger.debug("[%d]quantity before %s", INDEX_TRXS, present_quantity)
+        except: 
+            logger.debug("[%d]quantity before check error", INDEX_TRXS)
+            
+    while trns_done == 0:
+        try:
+            trx = send_transaction(dest_address, res_address, res_quantity, privkey, source)
+            trns_done = 1
+            logger.debug("DONE IDX:[%d] https://solscan.io/tx/%s", INDEX_TRXS, trx)
+        except: 
+            print
+            trns_done = 0
+            logger.debug("RETRY IDX:[%d]", INDEX_TRXS)
+
+    retry = 0
+    while (after_quantity == present_quantity or after_quantity == 0) and retry < 50:
+        try:
+            after_quantity = get_quantity(source,privkey,res_address)
+            logger.debug("[%d]quantity after %s", INDEX_TRXS, after_quantity)
+            retry = retry + 1
+        except: 
+            logger.debug("[%d]quantity after check error", INDEX_TRXS)
+        time.sleep(1)
+
+            
+            
+    logger.debug("[%d]quantity difference %d",INDEX_TRXS , int(present_quantity) - int(after_quantity))
+    
+    if(int(present_quantity) - int(after_quantity) == res_quantity):
+        logger.debug("Tutto ok")
+        return True
+    else:
+        logger.debug("Qualcosa è andato male %d-%d!=%d",int(present_quantity),int(after_quantity),res_quantity)
+        return False    
+                                    
+
 def send_transaction(dest_address,res_address, res_quantity, privkey, source):
     """ Send transaction on solana"""
     key_pair = Keypair.from_base58_string(privkey)
@@ -25,7 +70,7 @@ def send_transaction(dest_address,res_address, res_quantity, privkey, source):
     dest = Pubkey.from_string(dest_address)
 
     amount = res_quantity
-    solana_client = Client("https://mainnet.helius-rpc.com/?api-key=6297c3ea-594e-4fb1-a545-f132c3f838c7")
+    solana_client = Client(rpc_url)
     spl_client = Token(
         conn=solana_client, pubkey=mint, program_id=program_id, payer=key_pair
     )
@@ -81,14 +126,12 @@ def get_quantity(source,privkey,mint):
     source_pubkey = Pubkey.from_string(source)
     key_pair = Keypair.from_base58_string(privkey)
 
-    solana_client = Client("https://purple-purple-firefly.solana-mainnet.quiknode.pro/d10b73ab35fdb1bc20946f1d571007bfa47350af/")
+    solana_client = Client(rpc_url)
     spl_client = Token(conn=solana_client, pubkey=mint_pubkey, program_id=program_id, payer=key_pair)
     quantity_local = 0
         
     account = spl_client.get_accounts_by_owner(owner=source_pubkey)
-    
-    #print(account.value[0].pubkey)
-    
+        
     quantity_local = spl_client.get_balance(pubkey=account.value[0].pubkey)
     
     return quantity_local.value.amount
