@@ -10,12 +10,13 @@ from solders.pubkey import Pubkey
 from solders.keypair import Keypair
 from solders.system_program import TransferParams, transfer
 from solana.transaction import Transaction
+from solana.rpc.types import TxOpts
 
 program_id = Pubkey.from_string(
     "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
 )
 
-rpc_url = "https://mainnet.helius-rpc.com/?api-key=6297c3ea-594e-4fb1-a545-f132c3f838c7"
+rpc_url = "https://indulgent-small-grass.solana-mainnet.quiknode.pro/98eace00260cbb6d63ad1b34a222511a4cf79e3d/"
 
 
 def send_transaction2(dest_address,res_address, res_quantity, privkey, source, logger):
@@ -72,6 +73,9 @@ def send_transaction2(dest_address,res_address, res_quantity, privkey, source, l
 
     txn = Transaction()
 
+    # Creazione delle opzioni
+    opts1 = TxOpts(skip_confirmation=False)
+
     transaction = spl_client.transfer(
         source=source_token_account,
         dest=dest_token_account,
@@ -81,7 +85,6 @@ def send_transaction2(dest_address,res_address, res_quantity, privkey, source, l
         opts=None,
         recent_blockhash=None,
     )
-
     print(transaction)
     print(txn)
     
@@ -98,6 +101,7 @@ def send_transaction_and_test(dest_address,res_address, res_quantity, privkey, s
             logger.debug("[%d]quantity before %s", INDEX_TRXS, present_quantity)
         except: 
             logger.debug("[%d]quantity before check error", INDEX_TRXS)
+            time.sleep(1)
             
     while trns_done == 0:
         try:
@@ -105,20 +109,20 @@ def send_transaction_and_test(dest_address,res_address, res_quantity, privkey, s
             trx = send_transaction2(dest_address, res_address, res_quantity, privkey, source, logger)
             trns_done = 1
             logger.debug("DONE IDX:[%d] https://solscan.io/tx/%s", INDEX_TRXS, trx)
-        except: 
-            print
+        except:
             trns_done = 0
             logger.debug("RETRY IDX:[%d]", INDEX_TRXS)
 
     retry = 0
-    while (after_quantity == present_quantity or after_quantity == 0) and retry < 50:
+    while (after_quantity == present_quantity or after_quantity == 0) and retry < 180:
+        time.sleep(1)
         try:
             after_quantity = get_quantity(source,privkey,res_address)
             logger.debug("[%d]quantity after %s", INDEX_TRXS, after_quantity)
             retry = retry + 1
         except: 
             logger.debug("[%d]quantity after check error", INDEX_TRXS)
-        time.sleep(1)
+        
 
             
             

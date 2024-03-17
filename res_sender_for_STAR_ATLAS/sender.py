@@ -137,12 +137,17 @@ if __name__ == "__main__":
                 if INDEX_TRXS > int(index_to_start):
                     QFTR = math.floor((user.percent/100) * QTD)
                     TOTAL += QFTR
-
-                    if realSend == "send":
-                        logger.debug("TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
-                        send_transaction_and_test(user.addr, res_arr_address[INDEX], QFTR, privKey_arg, source_arg, logger, INDEX_TRXS)
-                    else:
-                        logger.debug("FAKE TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
+                    result = False
+                    while not result:
+                        if realSend == "send":
+                            result = send_transaction_and_test(user.addr, res_arr_address[INDEX], QFTR, privKey_arg, source_arg, logger, INDEX_TRXS)
+                            if(result == True):
+                                logger.debug("TRNS %d %s to %s IDX:[%d] DONE",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
+                            else:
+                                logger.debug("TRNS %d %s to %s IDX:[%d] RETRY..",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)  
+                        else:
+                            result = True
+                            logger.debug("FAKE TRNS %d %s to %s IDX:[%d]",QFTR, res_arr_address[INDEX], user.addr, INDEX_TRXS)
                 INDEX_TRXS+=1
 
         logger.info("%f %s distribuited",TOTAL, res_arr_str[INDEX])

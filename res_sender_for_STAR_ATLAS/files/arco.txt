@@ -1,0 +1,7 @@
+Bushi,7i2SDsu8xAJd9X43btV1PaHSwnvfhCWCvZjHcEWwT4t7,8000000;					
+YANGO,8hBFAWkSu8rXNHTUNUkgtB99UUYTQ2qqgGCHnmdqtoHV,6000000;					
+Jtripper,GCvwhNedn6a6RmUQ7du6ASaLq7qPV2i2vHsZ5TAW7FU2,6000000;					
+Mirkomago,CpFk76Q99dcnwidmQpwqEdRBmAfvdZDEtXmehnxnQM8L,5000000;					
+Bubba451,7DEhqvEpfCVhWG4gMtzxjXuCyXEJLPRhB1vuQ6r6vQid,2000000;					
+CarmiRow,4Romg1Cf7fY1rUnRiBEUZ3iFcq2DXbRVnvqdrT4JFsf3,1500000;					
+Alexfer,ePgo2N9SwpUhtQHeQMxRhxFqJzVEM1ekfCXkRGudZPV,1500000;

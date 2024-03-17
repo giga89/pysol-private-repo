@@ -1,0 +1,5 @@
+Vanzan,2yy6XRkNF7vgapEHef6yshreKiJVmnsaV87aHsAYAf3j,4000000;					
+Kyio,6mXEAJpRYuV5v8v74mNHWAKpi4BifAPxcipjhJY3rQsA,1000000;					
+Fabrizio,9YDciDLykLg7V7N2VbrhDv3tv47XdEyXquyqx6MKNRhs,1800000;					
+Urto,13fkG5PBRELAKuq2KjmTB8mg4n8CjuyGWPV5BtNN63Bo,3500000;					
+WachWorld,8zbRCMe3EiLKdXthc3v64Esqw9xrUKyuvqykUS2oMmFU,5000000;	

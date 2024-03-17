@@ -1,0 +1,13 @@
+PablitoS,8Mzj7abHKZZUUASAgAAg3c8ACXf6t9p9hx2GyaNuhS7M,7000000;					
+StepJordan,9EgpY6koKU8ugEoroaHdSUduUvArYgATmgWu67Dzs4XS,2400000;					
+Paramisha,Df3FAGBogeYf4qTdY72cHpokWvxe3L5Vd1sJv6VecFQL,1500000;					
+Gilda,kyaAizoPq8AGNhVFQNdm6761dmsF2hWibD2a2xt8tbG,10000000;					
+Merlino,98BfpPR3rTCtSJdMw5MU7q2zvHUtVEx2THkN9yYWKLoU,6500000;					
+Gausto,45ikKFBuUBV6Tif1xvZhUfsLjD1D6WfpnB1HxM5iaeir,3300000;					
+SPEKTRUM,2KSNwjc5bhSk8UEuiFMkMPzMHHV8gvUL4P2qoJkNwZ4H,15000000;					
+Koinhoor,SjJJMxrzXQp2Xr1LxMdz1PQqBc5hwjM8DEkCuqusDzG,3000000;					
+simone_vl,5AbZAjRDUHFFP4guEQ2LV26NroU151CoBgFoXe9XWsnT,20000000;					
+ric_greenman,6jxK2bxNhGtY7szPKiu7G2aiUp7vvHr5G9Psy3wn9d5G,15000000;										
+Tomasszcar,3w5fCZsrZkSuJECdaMKMMG5jirEVsZqUJdYYyvfMJpMm,2000000;					
+KappaZ,EjFbm7XA5KFs8r4oydhGF8bkPJdhce6jWgFghcUCAKmH,20000000;										
+Jump,E5tswfraFuQR1gdNNbcyJRRa1Em3YgG3nEeSFmBDQVQA,10000000;
